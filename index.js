@@ -58,21 +58,30 @@ app.post("/login", async (req, res) => {
     }
 });
 
-app.post("/register",async(req,res)=>{
-    try{
-        const data = req.body;
-        console.log(data);
-        let post = await detailsModel.create(data);
+
+app.post("/register", async (req, res) => {
+    try {
+        const { displayName, email } = req.body;
+        if (!displayName || !email) {
+            return res.status(400).send({ error: "displayName and email are required" });
+        }
+
+        let existingUser = await detailsModel.findOne({ email });
+        if (existingUser) {
+            return res.status(409).send({ error: "User already exists. Please log in." });
+        }
+
+        let newUser = await detailsModel.create({ displayName, email });
+
         res.send({
-            message: "✅ Data inserted successfully into google_signups_data",
-            user: post
+            message: "✅ User registered successfully",
+            user: newUser
         });
-    }
-    catch (error) {
-        console.error("❌ Error inserting data into google_signups_data:", error);
+    } catch (error) {
+        console.error("❌ Error inserting data:", error);
         res.status(500).send({ error: "Internal Server Error" });
     }
-})
+});
 app.listen(port,()=>{
     console.log(`🚀 Server running at http://localhost:${port}`);
 })
