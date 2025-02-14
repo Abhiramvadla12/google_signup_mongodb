@@ -40,7 +40,7 @@ const detailsModel = mongoose.model("google_signups_data",detailsSchema,"google_
 
 app.post("/login", async (req, res) => {
     try {
-        const { userame, email } = req.body; // Assuming login details are sent in the request body
+        const { username, email } = req.body; // Assuming login details are sent in the request body
         if (!username || !email) {
             return res.status(400).send({ error: "displayName and email are required" });
         }
@@ -62,7 +62,7 @@ app.post("/login", async (req, res) => {
 app.post("/register", async (req, res) => {
     try {
         const { username, email } = req.body;
-        if (!displayName || !email) {
+        if (!username || !email) {
             return res.status(400).send({ error: "displayName and email are required" });
         }
 
