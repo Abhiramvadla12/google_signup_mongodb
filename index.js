@@ -40,12 +40,12 @@ const detailsModel = mongoose.model("google_signups_data",detailsSchema,"google_
 
 app.post("/login", async (req, res) => {
     try {
-        const { displayName, email } = req.body; // Assuming login details are sent in the request body
-        if (!displayName || !email) {
+        const { userame, email } = req.body; // Assuming login details are sent in the request body
+        if (!username || !email) {
             return res.status(400).send({ error: "displayName and email are required" });
         }
 
-        let user = await detailsModel.findOne({ displayName, email }); // Adjust based on your schema
+        let user = await detailsModel.findOne({ username, email }); // Adjust based on your schema
         if (!user) {
             return res.status(401).send({ error: "Invalid credentials" });
         }
@@ -61,7 +61,7 @@ app.post("/login", async (req, res) => {
 
 app.post("/register", async (req, res) => {
     try {
-        const { displayName, email } = req.body;
+        const { username, email } = req.body;
         if (!displayName || !email) {
             return res.status(400).send({ error: "displayName and email are required" });
         }
@@ -71,7 +71,7 @@ app.post("/register", async (req, res) => {
             return res.status(409).send({ error: "User already exists. Please log in." });
         }
 
-        let newUser = await detailsModel.create({ displayName, email });
+        let newUser = await detailsModel.create({ username, email });
 
         res.send({
             message: "✅ User registered successfully",
