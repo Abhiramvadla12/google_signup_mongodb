@@ -17,7 +17,7 @@ mongoose.connection.once("open", () => {
 
 
 const detailsSchema = new mongoose.Schema({
-    displayName : String,
+    username : String,
     email : String
 });
 
